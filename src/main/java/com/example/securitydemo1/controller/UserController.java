@@ -28,12 +28,14 @@ public class UserController {
     @GetMapping("/get-by-id/{id}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<User> findUserById(@PathVariable("id") Long user_id) {
+        //this.userService.searchUserById(user_id).get().getRoles().forEach((r) -> System.out.println(r.getRole_name()));
         return ResponseEntity.ok(userService.searchUserById(user_id).get());
     }
 
     @PostMapping("/add")
-    //@PreAuthorize("ADMIN")
+    @PreAuthorize("ADMIN")
     public ResponseEntity<?> addNewUser(@RequestBody User user) {
+        //user.getRoles().forEach((r) -> System.out.println(r.getRole_name()));
         this.userService.addNewUser(user);
         return ResponseEntity.ok("New user created");
     }

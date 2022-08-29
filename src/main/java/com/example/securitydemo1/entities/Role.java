@@ -1,6 +1,10 @@
 package com.example.securitydemo1.entities;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table
@@ -12,6 +16,10 @@ public class Role {
 
     @Column(name = "role_name")
     private String role_name;
+
+    @ManyToMany(mappedBy = "roles")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<User> users;
 
     public Role(Long role_id, String role_name) {
         this.role_id = role_id;

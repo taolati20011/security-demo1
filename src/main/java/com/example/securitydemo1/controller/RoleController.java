@@ -19,14 +19,14 @@ public class RoleController {
     }
 
     @PostMapping("/add-role")
-    //@PreAuthorize("ADMIN")
+    @PreAuthorize("ADMIN")
     public ResponseEntity<?> addNewRole(@RequestBody Role role) {
         this.roleService.addNewRole(role);
         return ResponseEntity.ok("New role added");
     }
 
     @GetMapping("/search-role/{name}")
-    //@PreAuthorize("ADMIN")
+    @PreAuthorize("ADMIN")
     public ResponseEntity<Optional<Role>> searchRoleByName(@PathVariable("name") String role_name) {
         return ResponseEntity.ok(this.roleService.searchRoleByName(role_name));
     }
