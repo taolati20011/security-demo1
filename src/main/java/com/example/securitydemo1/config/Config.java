@@ -34,7 +34,7 @@ public class Config {
 //                .disable()
                 .authorizeRequests()
                 .antMatchers("/home").permitAll()
-                .antMatchers("/add").hasRole("ADMIN")
+//                .antMatchers("/add").hasRole("ADMIN")
 //                .antMatchers("/add-role").permitAll()
 //                .antMatchers("/add").permitAll()
 //                .antMatchers("/search-role/**").permitAll()
