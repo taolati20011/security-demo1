@@ -7,6 +7,10 @@ import com.example.securitydemo1.repository.UserRepository;
 import com.example.securitydemo1.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,7 +20,7 @@ import java.util.Set;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private final UserRepository userRepository;
 
@@ -55,5 +59,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(Long user_id) {
         this.userRepository.deleteUserById(user_id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.searchUserByUsername(username).stream().findFirst()
+                .orElseThrow(() -> new UsernameNotFoundException("Username is not present"));
+        return new User(user.getUser_id(), user.getUsername(), new BCryptPasswordEncoder().encode(user.getPassword()), user.getEmail(), user.getRoles());
     }
 }

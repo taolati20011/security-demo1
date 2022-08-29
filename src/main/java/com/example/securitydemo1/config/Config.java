@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = false, jsr250Enabled = true)
 public class Config {
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -28,12 +28,13 @@ public class Config {
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors()
-                .and()
-                .csrf()
-                .disable()
+//                .cors()
+//                .and()
+//                .csrf()
+//                .disable()
                 .authorizeRequests()
                 .antMatchers("/home").permitAll()
+                .antMatchers("/add").hasRole("ADMIN")
 //                .antMatchers("/add-role").permitAll()
 //                .antMatchers("/add").permitAll()
 //                .antMatchers("/search-role/**").permitAll()
@@ -41,7 +42,12 @@ public class Config {
 //                .antMatchers("/delete/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic();
+                .formLogin()
+                .defaultSuccessUrl("/home")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll();
         return http.build();
     }
 }
