@@ -48,7 +48,7 @@ public class SimpleController {
 
     // Api /api/random yêu cầu phải xác thực mới có thể request
     @GetMapping("/random")
-    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")    
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public RandomStuff randomStuff(){
         return new RandomStuff("JWT Hợp lệ mới có thể thấy được message này");
     }

@@ -35,10 +35,10 @@ public class Config {
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-//                .cors()
-//                .and()
-//                .csrf()
-//                .disable()
+                .cors()
+                .and()
+                .csrf()
+                .disable()
                 .authorizeRequests()
                 .antMatchers("/home").permitAll()
                 .antMatchers("/api/login").permitAll()
@@ -49,13 +49,15 @@ public class Config {
 //                .antMatchers("/get-by-id/**").permitAll()
 //                .antMatchers("/delete/**").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .defaultSuccessUrl("/home")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();
+                        .and()
+                                .httpBasic();
+//                .and()
+//                .formLogin()
+//                .defaultSuccessUrl("/home")
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .permitAll();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
