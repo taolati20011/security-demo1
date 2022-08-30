@@ -62,9 +62,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public UserDetails loadUserById(Long userId) {
+        User user = userRepository.searchUserById(userId).stream().findFirst()
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + userId));
+        return new User(user.getUser_id(), user.getUsername(), new BCryptPasswordEncoder().encode(user.getPassword()), user.getEmail(), user.getRoles());
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.searchUserByUsername(username).stream().findFirst()
                 .orElseThrow(() -> new UsernameNotFoundException("Username is not present"));
         return new User(user.getUser_id(), user.getUsername(), new BCryptPasswordEncoder().encode(user.getPassword()), user.getEmail(), user.getRoles());
     }
+
+
 }
