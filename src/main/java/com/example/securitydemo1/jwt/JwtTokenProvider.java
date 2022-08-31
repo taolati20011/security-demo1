@@ -22,7 +22,7 @@ public class JwtTokenProvider {
                 .setSubject(Long.toString(user.getUser_id()))
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS256, JWT_SECRET)
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
                 .compact();
     }
 
